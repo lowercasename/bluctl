@@ -80,13 +80,19 @@ async def handle_group(request: web.Request) -> web.Response:
             {"error": f"Unknown speaker: {speaker}", "valid": list(SPEAKERS.keys())},
             status=400,
         )
-    result = await activate_vinyl(request.app["session"], SPEAKERS[speaker])
-    return web.json_response(result)
+    try:
+        result = await activate_vinyl(request.app["session"], SPEAKERS[speaker])
+        return web.json_response(result)
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
 
 
 async def handle_ungroup(request: web.Request) -> web.Response:
-    result = await ungroup_all(request.app["session"])
-    return web.json_response(result)
+    try:
+        result = await ungroup_all(request.app["session"])
+        return web.json_response(result)
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
 
 
 async def handle_health(request: web.Request) -> web.Response:
