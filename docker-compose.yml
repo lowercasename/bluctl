@@ -1,0 +1,8 @@
+services:
+  bluctl:
+    container_name: bluctl
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    network_mode: host  # Needed to reach BluOS speakers on local network
